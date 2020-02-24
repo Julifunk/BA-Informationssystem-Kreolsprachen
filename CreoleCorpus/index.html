@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Corpus oral du créole guyanais</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <link rel="stylesheet" href="/src/style.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body onload="showEnregistrement()">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse"></button>
+      <a class="navbar-brand" onClick="showEnregistrement()">CORPUS CRÉOLE GUYANAIS</a>
+    </div>
+</nav>
+
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+      <p><a onClick="showEnregistrement()">Enregistrement 2: Kreyòl Lekòl</a></p>
+      <ul id="content_toggle">
+        <li class="active"><a href="#enregistrement" onClick="showEnregistrement()">Enregistrement</a></li>
+        <li><a href="#statistiques" onClick="showStatistics()">Outils de recherche</a></li>
+        <li><a href="#downloads" onClick="showDownloadPage()">Téléchargement</a></li>
+      </ul>
+    </div>
+
+    <div class="col-sm-7 text-left" id="enregistrement">
+      <div>
+        <h1 id="headerInTranscript">Enregistrement 2: Kreyòl Lekòl</h1>
+        <div class = "well">
+        <p>
+          <audio controls id="player-element">
+                <source src="src/audio/enregistrement2_audio.wav" type="audio/wav">
+          </audio>
+        </p>
+      <div id="transcript-space" style="display:inline-block"></div>
+      </div>
+      <hr>
+      <h3>Transcription</h3>
+      <p><i>Afin de démarrer l'enregistrement audio, cliquez sur une section de la transcription.</i></p>
+      <div class="complete-transcript">
+        <p id="text" class="clickable"></p>
+      </div>
+      </div>
+    </div>
+
+    <div class="col-sm-7 text-left" id="downloads">
+      <div>
+        <h1 id="headerInDownloads">Téléchargement</h1>
+        <span>
+        <div class = "well">
+          <p>Audio: Enregistrement 2: Kreyol lekol   </p>
+          <a href="src/transcripts/json_KurzbeispielSprecher Kopie.json" download>
+          <img src="src/img/ic_file_download.png" />
+        </a>
+        </div>
+      </span>
+      <span>
+      <div class = "well">
+        <p>Transcript Normalisé:    </p>
+        <a href="src/transcripts/normalized.txt" download>
+        <img src="src/img/ic_file_download.png" />
+      </a>
+      </div>
+    </span>
+    <span>
+    <div class = "well">
+      <p>Document XML de l'enregistrement dans la norme TEI-P5</p>
+      <a href="src/xml/transcript_tei.xml" download>
+      <img src="src/img/ic_file_download.png" />
+    </a>
+    </div>
+    </span>
+    <span>
+    <div class = "well">
+      <p>Métadonnées sur l'enregistrement:    </p>
+      <a href="src/metainfo/Metadonnées_Enregistrement2.docx" download>
+      <img src="src/img/ic_file_download.png" />
+    </a>
+    </div>
+    </span>
+      </div>
+    </div>
+
+    <div class="col-sm-7 text-left" id="statistiques">
+      <div>
+          <h1 id="headerInStatistics">Outils de recherche</h1>
+          <div class="well" >
+            <p><b>Analyse de fréquence</b></p>
+              <div id="frequency_analysis">
+                <button id="go_freqency" class="btn btn-default">Calculer</button><br><br>
+                <div>
+                    <div id="resultlist_frequency" class="resultlist_freq"></div>
+                </div>
+              </div>
+            </div>
+        <div class="well">
+          <div class="well">
+            <p><b>Collocations</b></p>
+              <div id="collocations">
+                <form>
+                <input type="text" id="collocation_query">      Mettez une mot<br>
+                <button id="go_collocation" class="btn btn-default">Montrer les Résultats</button>
+              </form>
+              </div>
+            </div>
+            <div class="well" class="resultlist_freq">
+                <div id="resultlist_collocations" class="resultlist_freq"></div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+      <script>
+          function showEnregistrement() {
+            var statistics = document.getElementById("statistiques");
+            statistics.style.display = "none";
+            var downloads = document.getElementById("downloads");
+            downloads.style.display = "none";
+            var enregistrement = document.getElementById("enregistrement");
+            enregistrement.style.display = "block";
+            document.getElementById("searchform_transcriptsection").style.display="block";
+            document.getElementById("wordMetaInformation").style.display="block";
+          }
+          function showStatistics() {
+            var statistics = document.getElementById("statistiques");
+            statistics.style.display = "block";
+            var enregistrement = document.getElementById("enregistrement");
+            enregistrement.style.display = "none";
+            var downloads = document.getElementById("downloads");
+            downloads.style.display = "none";
+            document.getElementById("searchform_transcriptsection").style.display="none";
+            document.getElementById("wordMetaInformation").style.display="none";
+          }
+          function showDownloadPage(){
+            var statistics = document.getElementById("statistiques");
+            statistics.style.display = "none";
+            var enregistrement = document.getElementById("enregistrement");
+            enregistrement.style.display = "none";
+            var downloads = document.getElementById("downloads");
+            downloads.style.display = "block";
+            document.getElementById("searchform_transcriptsection").style.display="none";
+            document.getElementById("wordMetaInformation").style.display="none";
+          }
+    </script>
+
+    <div class="col-sm-3 sidenav">
+      <div class="well" id="searchform_transcriptsection">
+        <p>Tapez un mot ici afin de lancer une recherche dans la transcription.</p>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" id="searchform">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" id="searchbutton">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </div>
+      </div>
+      </div>
+      <div class="well" id="wordMetaInformation">
+        <p>Cliquez sur un mot dans la transcription au-dessous du lecteur audio pour obtenir de l'information sur ce mot ici.</br> <i>(Vous devez commencer l'audio précédemment)</i></p>
+      </div>
+      <div class="well" id="textMetaInformation" >
+        <p>Vous trouvez des informations générales sur l'enregistrement ici.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/data_handler.js"></script>
+<script src="js/player.js"></script>
+<script src="js/metadata.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/transcript_controller.js"></script>
+<script src="js/statistics.js"></script>
+<script>
+  App.TranscriptPlayer.init();
+</script>
+</body>
+</html>
