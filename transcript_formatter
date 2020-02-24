@@ -1,0 +1,62 @@
+import re
+import io
+
+originFile = 'TEI_xml.xml'
+exitFile = str('transcript_'+originFile)
+
+
+
+#SAMPLEXML
+#{
+#}
+
+#REGEX
+#for intervals: intervals\s\[\d+]:
+#for xmin: \s+xmin\s=\s\d+\.\d{6}
+#for xmax: \s+xmax\s=\s\d+.\d{6}
+#for text: \s+text\s=\s\"[!-~]*\"
+
+#open webmouse-transcript from same directory as jsonify.py
+with io.open(originFile, 'r', encoding ='utf-8') as rf:
+    rawData = rf.read()
+
+
+cutHeader = re.findall(r'intervals\s\[\d+]:\s+xmin\s=\s\d+\.\d{6}\s+xmax\s=\s\d+.\d{6}\s+text\s=\s".+', rawData)
+rawData = str(cutHeader)
+
+#cut "intervals" from single segments + extract audioinformation for further processing
+intervals = re.findall(r'intervals\s\[\d+]:', rawData)
+xmins = re.findall(r'xmin\s=\s\d+\.\d{6}', rawData)
+xmaxs = re.findall(r'xmax\s=\s\d+.\d{6}', rawData)
+transcripts = re.findall(r'text\s=\s\".*?\"', rawData, re.UNICODE)
+
+for word in transcripts:
+    print(word)
+
+
+
+#write json-header to newly created output file
+with open(exitFile, 'w') as wf:
+    wf.write(str('{"audiofiles":{"fileID":"' + originFile + '","fileInformation": "someMoreInformation","segments": {'))
+
+#process single segments to match samplejson structure
+x = 0
+for eachInterval in intervals:
+    segmentKey = intervals[x].replace("intervals ", "")
+    segmentKey = '"' + segmentKey.replace(":", '":')
+    #segments are rounded to 1/100s now, might differ for other cases
+    audioInformation = str('{"' + str(xmins[x])).replace('0000', '') + '","' + str(xmaxs[x]).replace('0000', '') + '","' + str(transcripts[x]).replace('"', '') + '"}'
+    audioInformation = audioInformation.replace(" = ", '":"')
+    finalSegmentInformation = segmentKey + audioInformation
+
+    # write segmentsdata to outputfile
+    with open(exitFile, 'a') as wf:
+     if((x+1) == len(intervals)):
+         wf.write(str(finalSegmentInformation))
+     else:
+         wf.write(str(finalSegmentInformation) + ',')
+    x += 1
+
+#add closing tags to output-json
+with open(exitFile, 'a') as wf:
+    wf.write('}}}')
